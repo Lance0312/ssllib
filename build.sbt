@@ -17,6 +17,6 @@ libraryDependencies += scalatest % Test
 s3region := Region.US_Standard
 s3overwrite := true
 
-publishTo := Some(s3resolver.value("Verdigris Scala Libs Repository", s3("scala-jars")))
+publishTo := Some(s3resolver.value("Verdigris Scala Libs", s3("scala-jars")))
 
 resolvers += "Verdigris Scala Libs Repository" at "https://s3.amazonaws.com/scala-jars"
