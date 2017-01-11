@@ -5,7 +5,7 @@
 [![GitHub release](https://img.shields.io/github/release/VerdigrisTech/ssllib.svg)](https://github.com/VerdigrisTech/ssllib/releases)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://github.com/VerdigrisTech/ssllib/blob/master/LICENSE)
 
-A simple SSL helper library for Scala that contains factories generating 
+A simple SSL helper library for Scala that contains factories generating
 X509 certificates, private keys, and KeyStore instances from PEM encoded
 strings.
 
@@ -23,7 +23,7 @@ resolvers += "Verdigris Scala Lib Repository" at "https://s3.amazonaws.com/scala
 
 ### X509Certificate
 
-To get an instance of X509Certificate object, pass in the PEM encoded 
+To get an instance of X509Certificate object, pass in the PEM encoded
 string to the `fromPEM` method:
 
 ```scala
@@ -95,6 +95,11 @@ code:
 // certPem and privateKeyPem from above example
 val keyStore = KeyStoreFactory.fromCertAndKey(certPem, privateKeyPem, "reallysecurepassword1234")
 ```
+
+## API Documentation
+
+For more information, check out the [Scaladocs](https://verdigristech.github.io/ssllib/latest/api)
+on API usage.
 
 ## License
 
