@@ -42,7 +42,7 @@ class S3JKSSSLOptions extends SSLOptions {
       key ← Some(s3URI.getKey)
     } yield s3Client.getObject(bucket, key)
 
-    var inputStream: S3ObjectInputStream = _
+    var inputStream: S3ObjectInputStream = null
     val initSSLContext = Try {
       inputStream = s3Object.get.getObjectContent
       trustStore.load(inputStream, this.jksPassword.toCharArray)
