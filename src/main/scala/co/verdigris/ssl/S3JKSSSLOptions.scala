@@ -5,6 +5,7 @@ import javax.net.ssl.{SSLContext, TrustManagerFactory}
 
 import com.amazonaws.ClientConfiguration
 import com.amazonaws.auth.profile.ProfileCredentialsProvider
+import com.amazonaws.regions.Regions
 import com.amazonaws.services.s3.model.S3ObjectInputStream
 import com.amazonaws.services.s3.{AmazonS3, AmazonS3ClientBuilder, AmazonS3URI}
 import com.datastax.driver.core.SSLOptions
@@ -25,11 +26,13 @@ class S3JKSSSLOptions extends SSLOptions {
   var jksPasswordEnvVarKey: String = "CASSANDRA_TRUST_STORE_PASSWORD"
   protected var _s3url: Option[String] = None
   private var _jksPassword: Option[String] = None
+  var awsRegion: Option[String] = None
   protected lazy val s3Client: AmazonS3 = {
     // Use Signature Version 4 to access S3 objects encrypted with SSE-KMS.
     clientConfiguration.setSignerOverride("AWSS3V4SignerType")
     s3ClientBuilder.setClientConfiguration(clientConfiguration)
     s3ClientBuilder.setCredentials(new ProfileCredentialsProvider())
+    this.awsRegion match { case Some(region) ⇒ s3ClientBuilder.withRegion(region) }
     s3ClientBuilder.build()
   }
   protected lazy val clientConfiguration: ClientConfiguration = new ClientConfiguration()
@@ -64,11 +67,14 @@ class S3JKSSSLOptions extends SSLOptions {
     }
   }
 
-  def this(s3Url: String, jksPassword: String) = {
+  def this(s3Url: String, jksPassword: String, awsRegion: String) = {
     this()
     this._s3url = Some(s3Url)
     this._jksPassword = Some(jksPassword)
+    this.awsRegion = Some(awsRegion)
   }
+
+  def this(s3Url: String, jksPassword: String) = this(s3Url, jksPassword, null)
 
   /** URL for Amazon Web Services S3 which stores the Java Key Store (JKS) file.
     *
