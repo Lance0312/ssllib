@@ -100,12 +100,6 @@ class S3JKSSSLOptions extends SSLOptions {
     this._jksPassword.getOrElse(envVarJksPassword)
   }
 
-  /** Sets the JKS password required to decrypt the KeyStore.
-    *
-    * @param password the password to decrypt the entries in the Java KeyStore
-    */
-  def jksPassword_=(password: String) { this._jksPassword = Some(password) }
-
   override def newSSLHandler(channel: SocketChannel): SslHandler = {
     lazy val sslEngine = {
       val engine = context.createSSLEngine()
