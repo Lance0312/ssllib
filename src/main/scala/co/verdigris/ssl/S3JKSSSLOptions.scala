@@ -5,7 +5,6 @@ import javax.net.ssl.{SSLContext, TrustManagerFactory}
 
 import com.amazonaws.ClientConfiguration
 import com.amazonaws.auth.profile.ProfileCredentialsProvider
-import com.amazonaws.regions.Regions
 import com.amazonaws.services.s3.model.S3ObjectInputStream
 import com.amazonaws.services.s3.{AmazonS3, AmazonS3ClientBuilder, AmazonS3URI}
 import com.datastax.driver.core.SSLOptions
