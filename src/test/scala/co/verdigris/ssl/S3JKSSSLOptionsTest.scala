@@ -32,4 +32,10 @@ class S3JKSSSLOptionsTest extends FlatSpec with Matchers with BeforeAndAfter {
     val sslOptions = new S3JKSSSLOptions("s3://ssllib/testkeystore.jks", "otherpassword", "us-east-1")
     an [IOException] should be thrownBy sslOptions.newSSLHandler(new NioSocketChannel())
   }
+
+  "s3Url" should "override S3 URL value from constructor" in {
+    sslOptions.s3Url shouldBe "s3://ssllib/testkeystore.jks"
+    sslOptions.s3Url = "s3://ssllib/newkeystore.jks"
+    sslOptions.s3Url shouldBe "s3://ssllib/newkeystore.jks"
+  }
 }
