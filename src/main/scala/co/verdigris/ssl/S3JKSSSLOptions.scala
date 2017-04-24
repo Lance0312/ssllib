@@ -32,11 +32,7 @@ class S3JKSSSLOptions(
     s3ClientBuilder.setClientConfiguration(clientConfiguration)
     s3ClientBuilder.setCredentials(new ProfileCredentialsProvider())
 
-    // Pattern match to set the client builder with AWS region, otherwise
-    this.awsRegion match {
-      case Some(region) ⇒ s3ClientBuilder.withRegion(region)
-      case None ⇒;
-    }
+    if (this.awsRegion.nonEmpty) s3ClientBuilder.withRegion(this.awsRegion.mkString)
 
     s3ClientBuilder.build()
   }
