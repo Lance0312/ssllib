@@ -30,7 +30,6 @@ class S3JKSSSLOptions(
     // Use Signature Version 4 to access S3 objects encrypted with SSE-KMS.
     clientConfiguration.setSignerOverride("AWSS3V4SignerType")
     s3ClientBuilder.setClientConfiguration(clientConfiguration)
-    s3ClientBuilder.setCredentials(new ProfileCredentialsProvider())
 
     if (this.awsRegion.nonEmpty) s3ClientBuilder.withRegion(this.awsRegion.mkString)
 
