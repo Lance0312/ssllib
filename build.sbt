@@ -2,9 +2,9 @@ import com.amazonaws.services.s3.model.Region
 
 name := "SslLib"
 organization := "co.verdigris.ssl"
-version := "0.2.0"
-scalaVersion := "2.11.8"
-crossScalaVersions := Seq("2.10.6", "2.11.8")
+version := "0.2.1"
+scalaVersion := "2.11.10"
+crossScalaVersions := Seq("2.10.6", "2.11.10")
 
 assemblyOption in assembly := (assemblyOption in assembly).value.copy(includeScala = false)
 
