@@ -16,7 +16,7 @@ strings.
 In `build.sbt`:
 
 ```scala
-libraryDependencies += "co.verdigris.ssl" %% "ssllib" % "0.2.0"
+libraryDependencies += "co.verdigris.ssl" %% "ssllib" % "0.2.1"
 
 resolvers += "Verdigris Scala Lib Repository" at "https://s3.amazonaws.com/scala-jars"
 ```
