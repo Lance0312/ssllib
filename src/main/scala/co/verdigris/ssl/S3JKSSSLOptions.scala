@@ -179,16 +179,6 @@ class S3JKSSSLOptions(
     case (Some(_), ksType) ⇒ Some(KeyStore.getInstance(ksType.getOrElse("JKS")))
   }
 
-  protected def getTrustManagerFactory(trustStore: Option[KeyStore]): Option[TrustManagerFactory] = trustStore match {
-    case Some(_) ⇒ Some(TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm))
-    case None ⇒ None
-  }
-
-  protected def getKeyManagerFactory(keyStore: Option[KeyStore]): Option[KeyManagerFactory] = keyStore match {
-    case Some(_) ⇒ Some(KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm))
-    case None ⇒ None
-  }
-
   override def newSSLHandler(channel: SocketChannel): SslHandler = {
     lazy val sslEngine = {
       val engine = context.createSSLEngine()
