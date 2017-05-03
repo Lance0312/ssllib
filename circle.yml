@@ -1,6 +1,6 @@
 test:
   override:
-    - sbt clean coverage test:test coverageReport
+    - sbt coverage test:test coverageReport
   post:
     - bash <(curl -s https://codecov.io/bash)
 
