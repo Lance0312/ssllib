@@ -22,7 +22,7 @@ import scala.util.{Failure, Success, Try}
 class S3JKSSSLOptions(
     var s3TrustStoreUrl: Option[String],
     private var trustStorePassword: Option[String],
-    var trustStoreType: Option[String],
+    var trustStoreType: Option[String] = Some("JKS"),
     var s3KeyStoreUrl: Option[String] = None,
     private var keyStorePassword: Option[String] = None,
     var keyStoreType: Option[String] = None,
@@ -128,12 +128,16 @@ class S3JKSSSLOptions(
       s3TrustStoreUrl: String,
       trustStorePassword: String,
       trustStoreType: String,
-      awsRegion: String) = this(Some(s3TrustStoreUrl), Some(trustStorePassword), Some(trustStoreType), Some(awsRegion))
+      awsRegion: String) = {
+    this(Some(s3TrustStoreUrl), Some(trustStorePassword), Some(trustStoreType), awsRegion = Some(awsRegion))
+  }
 
   def this(
       s3TrustStoreUrl: String,
       trustStorePassword: String,
       trustStoreType: String) = this(Some(s3TrustStoreUrl), Some(trustStorePassword), Some(trustStoreType))
+
+  def this(s3TrustStoreUrl: String, trustStorePassword: String) = this(Some(s3TrustStoreUrl), Some(trustStorePassword))
 
   def this() = this(
     sys.env.get(S3JKSSSLOptions.ENV_VAR_S3_TRUST_STORE_URL),

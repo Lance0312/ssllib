@@ -28,7 +28,7 @@ class S3JKSSSLOptionsTest extends FlatSpec with Matchers with BeforeAndAfter {
     sslOptions = new S3JKSSSLOptions()
 
     // Can only test s3Url property because JKS password is a private property for security reasons.
-    sslOptions.s3Url shouldBe sys.env.get(S3JKSSSLOptions.ENV_VAR_S3_TRUST_STORE_URL)
+    sslOptions.s3TrustStoreUrl shouldBe sys.env.get(S3JKSSSLOptions.ENV_VAR_S3_TRUST_STORE_URL)
   }
 
   "newSSLHandler" should "return an SslHandler" in {
