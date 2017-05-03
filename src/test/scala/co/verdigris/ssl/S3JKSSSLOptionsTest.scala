@@ -12,7 +12,14 @@ class S3JKSSSLOptionsTest extends FlatSpec with Matchers with BeforeAndAfter {
   var sslOptions: S3JKSSSLOptions = _
 
   before {
-    sslOptions = new S3JKSSSLOptions("s3://ssllib/testkeystore.jks", "password", "JKS", "us-east-1")
+    sslOptions = new S3JKSSSLOptions(
+      "s3://ssllib/testkeystore.jks",
+      "password",
+      "JKS",
+      "s3://ssllib/testkeystore.jks",
+      "password",
+      "JKS",
+      "us-east-1")
   }
 
   "Constructor" should "return an instance that implements SSLOptions interface" in {
