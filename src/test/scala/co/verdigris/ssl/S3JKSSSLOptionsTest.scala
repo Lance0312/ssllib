@@ -12,7 +12,7 @@ class S3JKSSSLOptionsTest extends FlatSpec with Matchers with BeforeAndAfter {
   var sslOptions: S3JKSSSLOptions = _
 
   before {
-    sslOptions = new S3JKSSSLOptions("s3://ssllib/testkeystore.jks", "password", "us-east-1")
+    sslOptions = new S3JKSSSLOptions("s3://ssllib/testkeystore.jks", "password", "JKS", "us-east-1")
   }
 
   "Constructor" should "return an instance that implements SSLOptions interface" in {
@@ -36,17 +36,17 @@ class S3JKSSSLOptionsTest extends FlatSpec with Matchers with BeforeAndAfter {
   }
 
   it should "throw an exception when S3 URL contains the wrong bucket" in {
-    val sslOptions = new S3JKSSSLOptions("s3://invalidssllibbucket/404.jks", "password", "us-east-1")
+    val sslOptions = new S3JKSSSLOptions("s3://invalidssllibbucket/404.jks", "password", "JKS", "us-east-1")
     an [AmazonS3Exception] should be thrownBy sslOptions.newSSLHandler(new NioSocketChannel())
   }
 
   it should "throw an exception when S3 URL contains the wrong key" in {
-    val sslOptions = new S3JKSSSLOptions("s3://ssllib/404.jks", "password", "us-east-1")
+    val sslOptions = new S3JKSSSLOptions("s3://ssllib/404.jks", "password", "JKS", "us-east-1")
     an [AmazonS3Exception] should be thrownBy sslOptions.newSSLHandler(new NioSocketChannel())
   }
 
   it should "throw an exception when JKS password is incorrect" in {
-    val sslOptions = new S3JKSSSLOptions("s3://ssllib/testkeystore.jks", "otherpassword", "us-east-1")
+    val sslOptions = new S3JKSSSLOptions("s3://ssllib/testkeystore.jks", "otherpassword", "JKS", "us-east-1")
     an [IOException] should be thrownBy sslOptions.newSSLHandler(new NioSocketChannel())
   }
 }
