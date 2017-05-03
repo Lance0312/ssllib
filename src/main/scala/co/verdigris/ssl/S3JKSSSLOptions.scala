@@ -198,10 +198,4 @@ object S3JKSSSLOptions {
   val ENV_VAR_KEY_STORE_PASSWORD = "CASSANDRA_KEY_STORE_PASSWORD"
   val ENV_VAR_KEY_STORE_TYPE = "CASSANDRA_KEY_STORE_TYPE"
   val ENV_VAR_S3_REGION = "CASSANDRA_S3_REGION"
-
-  class Builder {
-
-  }
-
-  def builder(): Builder = new Builder
 }
