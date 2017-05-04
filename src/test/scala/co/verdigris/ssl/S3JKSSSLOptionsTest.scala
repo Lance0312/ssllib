@@ -19,6 +19,7 @@ class S3JKSSSLOptionsTest extends FlatSpec with Matchers with BeforeAndAfter {
       "s3://ssllib/testkeystore.jks",
       "password",
       "JKS",
+      Set("TLS_RSA_WITH_AES_128_CBC_SHA", "TLS_RSA_WITH_AES_256_CBC_SHA"),
       "us-east-1")
   }
 

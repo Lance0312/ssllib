@@ -26,6 +26,7 @@ class S3JKSSSLOptions(
     var s3KeyStoreUrl: Option[String] = None,
     private var keyStorePassword: Option[String] = None,
     var keyStoreType: Option[String] = None,
+    var cipherSuites: Set[String] = Set[String](),
     var awsRegion: Option[String] = None) extends SSLOptions {
   protected lazy val clientConfiguration: ClientConfiguration = new ClientConfiguration()
   protected lazy val s3ClientBuilder: AmazonS3ClientBuilder = AmazonS3ClientBuilder.standard()
@@ -89,9 +90,36 @@ class S3JKSSSLOptions(
       s3TrustStoreUrl: Option[String],
       trustStorePassword: Option[String],
       trustStoreType: Option[String],
+      cipherSuites: Set[String],
       awsRegion: Option[String]) = {
-    this(s3TrustStoreUrl, trustStorePassword, trustStoreType, None, None, None, awsRegion)
+    this(s3TrustStoreUrl, trustStorePassword, trustStoreType, None, None, None, cipherSuites, awsRegion)
   }
+
+  def this(
+      s3TrustStoreUrl: Option[String],
+      trustStorePassword: Option[String],
+      trustStoreType: Option[String],
+      awsRegion: Option[String]) = {
+    this(s3TrustStoreUrl, trustStorePassword, trustStoreType, Set[String](), awsRegion)
+  }
+
+  def this(
+      s3TrustStoreUrl: String,
+      trustStorePassword: String,
+      trustStoreType: String,
+      s3KeyStoreUrl: String,
+      keyStorePassword: String,
+      keyStoreType: String,
+      cipherSuites: Set[String],
+      awsRegion: String) = this(
+    Some(s3TrustStoreUrl),
+    Some(trustStorePassword),
+    Some(trustStoreType),
+    Some(s3KeyStoreUrl),
+    Some(keyStorePassword),
+    Some(keyStoreType),
+    cipherSuites,
+    Some(awsRegion))
 
   def this(
       s3TrustStoreUrl: String,
@@ -107,7 +135,7 @@ class S3JKSSSLOptions(
     Some(s3KeyStoreUrl),
     Some(keyStorePassword),
     Some(keyStoreType),
-    Some(awsRegion))
+    awsRegion = Some(awsRegion))
 
   def this(
       s3TrustStoreUrl: String,
@@ -122,7 +150,16 @@ class S3JKSSSLOptions(
     Some(s3KeyStoreUrl),
     Some(keyStorePassword),
     Some(keyStoreType),
-    None)
+    awsRegion = None)
+
+  def this(
+      s3TrustStoreUrl: String,
+      trustStorePassword: String,
+      trustStoreType: String,
+      cipherSuites: Set[String],
+      awsRegion: String) = {
+    this(Some(s3TrustStoreUrl), Some(trustStorePassword), Some(trustStoreType), awsRegion = Some(awsRegion))
+  }
 
   def this(
       s3TrustStoreUrl: String,
@@ -146,6 +183,10 @@ class S3JKSSSLOptions(
     sys.env.get(S3JKSSSLOptions.ENV_VAR_S3_KEY_STORE_URL),
     sys.env.get(S3JKSSSLOptions.ENV_VAR_KEY_STORE_PASSWORD),
     sys.env.get(S3JKSSSLOptions.ENV_VAR_KEY_STORE_TYPE),
+    sys.env.get(S3JKSSSLOptions.ENV_VAR_CIPHER_SUITES)
+      .toSet[String]
+      .flatMap[String, Set[String]](_.split(","))
+      .map(_.trim),
     sys.env.get(S3JKSSSLOptions.ENV_VAR_S3_REGION)
   )
 
@@ -183,6 +224,8 @@ class S3JKSSSLOptions(
     lazy val sslEngine = {
       val engine = context.createSSLEngine()
       engine.setUseClientMode(true)
+      if (this.cipherSuites.nonEmpty) engine.setEnabledCipherSuites(this.cipherSuites.toArray)
+
       engine
     }
 
@@ -197,5 +240,6 @@ object S3JKSSSLOptions {
   val ENV_VAR_S3_KEY_STORE_URL = "CASSANDRA_S3_KEY_STORE_URL"
   val ENV_VAR_KEY_STORE_PASSWORD = "CASSANDRA_KEY_STORE_PASSWORD"
   val ENV_VAR_KEY_STORE_TYPE = "CASSANDRA_KEY_STORE_TYPE"
+  val ENV_VAR_CIPHER_SUITES = "CASSANDRA_CIPHER_SUITES"
   val ENV_VAR_S3_REGION = "CASSANDRA_S3_REGION"
 }
