@@ -1,3 +1,7 @@
+dependencies:
+  pre:
+    - sudo rsync -r --include=*/ --include=*.jar --exclude=* .jre $JAVA_HOME
+
 test:
   override:
     - sbt coverage test:test coverageReport
